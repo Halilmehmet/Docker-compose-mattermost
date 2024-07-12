@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
+    environment:
+      POSTGRES_DB: mattermost
+      POSTGRES_USER: mmuser
+      POSTGRES_PASSWORD: mmuserpassword
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - mattermost-network
+
+  mattermost:
+    image: mattermost/mattermost-team-edition:latest
+    platform: linux/amd64
+    environment:
+      MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mmuserpassword@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+      MM_FILESETTINGS_DRIVERNAME: amazons3
+      MM_FILESETTINGS_AMAZONS3ACCESSKEYID: minioaccesskey
+      MM_FILESETTINGS_AMAZONS3SECRETACCESSKEY: miniosecretkey
+      MM_FILESETTINGS_AMAZONS3BUCKET: mattermost
+      MM_FILESETTINGS_AMAZONS3ENDPOINT: minio:9000
+      MM_FILESETTINGS_AMAZONS3SSL: "false"
+      MM_FILESETTINGS_AMAZONS3SIGNV2: "true"
+
+    volumes:
+      - ./plugins:/mattermost/plugins
+      - mattermost-data:/mattermost/data
+    ports:
+      - "8065:8065"
+    depends_on:
+      - postgres
+      - minio
+      - onlyoffice
+    networks:
+      - mattermost-network
+
+  minio:
+    image: minio/minio:latest
+    platform: linux/amd64
+    environment:
+      MINIO_ROOT_USER: minioaccesskey
+      MINIO_ROOT_PASSWORD: miniosecretkey
+      MINIO_DEFAULT_BUCKETS: mattermost
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - mattermost-network
+
+  
+
+volumes:
+  postgres-data:
+  minio-data:
+  mattermost-data:
+
+
+networks:
+  mattermost-network:
+    driver: bridge
