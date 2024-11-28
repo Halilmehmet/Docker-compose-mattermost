@@ -1,7 +1,7 @@
 # Docker Compose Örneği: Mattermost, PostgreSQL, MinIO, OnlyOffice
 
 
-```yaml
+```
 postgres:
   image: postgres:latest
   environment:
@@ -12,8 +12,8 @@ postgres:
     - postgres-data:/var/lib/postgresql/data
   networks:
     - mattermost-network 
-
 ´´´
+
 PostgreSQL Servisi Açıklaması:
 - **image**: PostgreSQL'in Docker Hub'dan (`postgres` deposundan) en son sürümünü (`latest` etiketiyle) kullanır. PostgreSQL'in en son resmi sürümünü sağlayan resmi Docker imajıdır.
 
