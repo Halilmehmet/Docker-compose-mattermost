@@ -12,7 +12,7 @@ postgres:
     - postgres-data:/var/lib/postgresql/data
   networks:
     - mattermost-network 
-´´´
+```
 
 PostgreSQL Servisi Açıklaması:
 - **image**: PostgreSQL'in Docker Hub'dan (`postgres` deposundan) en son sürümünü (`latest` etiketiyle) kullanır. PostgreSQL'in en son resmi sürümünü sağlayan resmi Docker imajıdır.
@@ -97,7 +97,7 @@ minio:
   networks:
     - mattermost-network
 
-´´´
+```
 MinIO Servisi Açıklaması:
 - **image**: MinIO'un Docker Hub'dan (`minio` deposundan) en son sürümünü (`latest` etiketiyle) kullanır. MinIO, ölçeklenebilir nesne depolama sunucusudur ve bu yapılandırmada Amazon S3 uyumlu olarak kullanılmaktadır.
 
@@ -139,7 +139,7 @@ onlyoffice:
     interval: 30s
     timeout: 10s
     retries: 3
-
+```
 OnlyOffice Servisi Açıklaması:
 - **image**: OnlyOffice Document Server'ın Docker Hub'dan (`onlyoffice` deposundan) 7.1 sürümünü kullanır. OnlyOffice, belge işbirliği ve işlem çözümleri sunan açık kaynaklı bir ofis yazılımı platformudur.
 
@@ -178,14 +178,14 @@ volumes:
     MinIO servisi için kullanılacak Docker volume'ü. MinIO konteynerinin verilerini saklamak için kullanılır.
   mattermost-data:
     Mattermost servisi için kullanılacak Docker volume'ü. Mattermost konteynerinin veri dosyalarını saklamak için kullanılır.
-  
+``` 
 ## Networks (Ağ Tanımları)
 
 ```yaml
 networks:
   mattermost-network:
     driver: bridge
-
+```
 mattermost-network: Docker Compose dosyasında tanımlanan ağlardan biridir. mattermost-network adında bir Docker bridge ağıdır.
 
 
